@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ScientificBlock.qml</file>
+        <file>NumberBlock.qml</file>
+        <file>MButton.qml</file>
+        <file>MDrawer.qml</file>
+        <file>CharacterBlock.qml</file>
+        <file>DisplayBlock.qml</file>
+        <file>MCanvas.qml</file>
+        <file>FunctionsCalculator.qml</file>
+        <file>FunctionsBlock.qml</file>
+        <file>FunctionsRow.qml</file>
+    </qresource>
+</RCC>
