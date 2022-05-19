@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
-
     Math math;
 
     QQmlApplicationEngine engine;

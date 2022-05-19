@@ -6,21 +6,7 @@ Item{
     id: rootId
 
     /** PROPERTIES **/
-    property int x1: 0
-    property int y1: 0
-    property int x2: 0
-    property int y2: 0
     property int gridSize: 10
-
-    /** FUNCTIONS **/
-    function drawLine(_x1, _y1, _x2, _y2)
-    {
-        x1 = _x1
-        y1 = _y1
-        x2 = _x2
-        y2 = _y2
-        canvasId.iDrawLine()
-    }
 
     property var line: ({
         x1: 0,
@@ -29,9 +15,35 @@ Item{
         y2: 0
     })
 
-    function drawLines(_lines)
+    /** FUNCTIONS **/
+    function drawLine(_x1, _y1, _x2, _y2)
     {
+        var line = {}
+        line.x1 = _x1
+        line.y1 = _y1
+        line.x2 = _x2
+        line.y2 = _y2
 
+        canvasId.iDrawLine(line)
+    }
+
+    function drawLines()
+    {
+        var line = {}
+        line.x1 = 0
+        line.y1 = 0
+        line.x2 = 100
+        line.y2 = 100
+        var line2 = {}
+        line2.x1 = 200
+        line2.y1 = 200
+        line2.x2 = 400
+        line2.y2 = 400
+
+        var _lines = [line, line2]
+//        lines.push(line)
+//        lines.push(line2)
+        canvasId.iDrawLines(_lines)
     }
 
     function drawGrid()
@@ -43,7 +55,7 @@ Item{
         id: canvasId
         anchors.fill: parent
         onCanvasSizeChanged: iDrawGrid()
-        function iDrawLine()
+        function iDrawLine(_line)
         {
             var ctx = getContext("2d")
             ctx.lineWidth = 1;
@@ -51,16 +63,44 @@ Item{
 
             ctx.beginPath()
 
-            ctx.moveTo(x1, y1)
-            ctx.lineTo(x2, y2)
+            ctx.moveTo(_line.x1, _line.y1)
+            ctx.lineTo(_line.x2, _line.y2)
 
             ctx.stroke()
             canvasId.requestPaint()
         }
 
-        function iDrawLines()
+        function iDrawLines(_lines)
         {
+            var ctx = getContext("2d")
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "red"
+            ctx.beginPath()
+            console.log("x1: " + _lines[0].x1)
+            console.log("y1: " + _lines[0].y1)
+            console.log("x2: " + _lines[0].x2)
+            console.log("y2: " + _lines[0].y2)
+            console.log("x1: " + _lines[1].x1)
+            console.log("y1: " + _lines[1].y1)
+            console.log("x2: " + _lines[1].x2)
+            console.log("y2: " + _lines[1].y2)
+            var oldX = _lines.x1
+            var oldY = _lines.y1
 
+            for(var i=0; i<_lines.length; i++)
+            {
+                ctx.moveTo(_lines[i].x1, _lines[i].y1)
+                ctx.lineTo(_lines[i].x2, _lines[i].y2)
+//                oldX = _lines[i].x2
+//                oldY = _lines[i].y2
+            }
+
+            ctx.closePath()
+            ctx.stroke()
+            canvasId.requestPaint()
+//            var fruits = ["Apple", "Banane"]
+//            fruits.push("Tomato")
+//            console.log(fruits)
         }
 
         function iDrawGrid()
@@ -70,48 +110,6 @@ Item{
             ctx.lineWidth = 1;
             ctx.strokeStyle = "#e8e8e8"
             ctx.beginPath()
-//            var remainderWidth =  (rootId.width) % gridSize
-//            var remainderHeight = (rootId.height) % gridSize
-//            console.log("remainderWidth: " + remainderWidth)
-//            console.log("remainderWidth: " + remainderWidth / 2)
-//            /** VERTICAL LINES **/
-//            for(var i=0; i<rootId.width / gridSize; i++)
-//            {
-//                ctx.moveTo((gridSize * i) + remainderWidth / 2, 0)
-//                ctx.lineTo((gridSize * i) + remainderWidth / 2, rootId.height)
-//            }
-//            /** HORIZONTAL LINES **/
-//            for(var j=0; j<rootId.height / gridSize; j++)
-//            {
-//                //console.log((gridSize * j) + remainderHeight / 2)
-//                ctx.moveTo(0,            (gridSize * j) + remainderHeight / 2)
-//                ctx.lineTo(rootId.width, (gridSize * j) + remainderHeight / 2)
-//            }
-//            ctx.closePath()
-//            ctx.stroke()
-//            /** DRAW AXIS LABEL GRID **/
-//            ctx.beginPath()
-//            ctx.strokeStyle = "#bdbdbd"
-//            var axisLabelDistance = 100
-//            remainderWidth = (rootId.width) % axisLabelDistance
-//            remainderHeight = (rootId.height) % axisLabelDistance
-//            console.log("remainderWidth: " + remainderWidth)
-//            console.log("remainderWidth: " + remainderWidth / 2)
-//            /** VERTICAL LINES **/
-//            for(var k=0; k<rootId.width / axisLabelDistance; k++)
-//            {
-//                ctx.moveTo((axisLabelDistance * k) + remainderWidth / 2, 0)
-//                ctx.lineTo((axisLabelDistance * k) + remainderWidth / 2, rootId.height)
-//            }
-//            /** HORIZONTAL LINES **/
-//            for(var l=0; l<rootId.height / axisLabelDistance; l++)
-//            {
-//                ctx.moveTo(0,            (axisLabelDistance * l) + remainderHeight / 2)
-//                ctx.lineTo(rootId.width, (axisLabelDistance * l) + remainderHeight / 2)
-//            }
-//            ctx.stroke()
-
-
 
             /** VERTICAL LINES **/
             for(var i=0; i<rootId.width / gridSize / 2; i++)
@@ -171,12 +169,16 @@ Item{
             ctx.beginPath()
             ctx.strokeStyle = "black"
             /** VERTICAL LINE **/
+            console.log("width: " + rootId.width)
+            console.log("height: " + rootId.height)
             ctx.moveTo(rootId.width / 2, 0)
             ctx.lineTo(rootId.width /2, rootId.height)
             /** HORIZONAL LINE **/
+            ctx.lineWidth = 2
             ctx.moveTo(0, rootId.height / 2)
             ctx.lineTo(rootId.width, rootId.height / 2)
 
+            ctx.closePath()
             ctx.stroke()
             canvasId.requestPaint()
         }

@@ -57,7 +57,8 @@ Item {
                     onNineButtonClicked: functionsBlockId.setFocusedFunctionText(functionsBlockId.focusedFunctionText() + "9")
                     onZeroButtonClicked: {
                         functionsBlockId.setFocusedFunctionText(functionsBlockId.focusedFunctionText() + "0")
-                        canvasId.drawLine(0, 200, 200, 500)
+                        //canvasId.drawLine(0, 200, 200, 500)
+                        canvasId.drawLines()
                     }
                         onAnsButtonClicked:{
 
